@@ -4,6 +4,7 @@ import { useRequest } from "ahooks";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { resetComponents } from "../store/componentsReducer";
+import { resetPageInfo } from "../store/PageInfoReducer";
 export default function useLoadQuestionData() {
 	const { id = "" } = useParams();
 	const dispatch = useDispatch();
@@ -20,12 +21,16 @@ export default function useLoadQuestionData() {
 	);
 	useEffect(() => {
 		if (!data) return;
-		const { title = "", componentList = [] } = data;
+		const { title = "", desc = "", js = "", css = "", isPublished, componentList = [] } = data;
+		// 获取默认的selectedID
 		let selectedId = "";
 		if (componentList.length > 0) {
 			selectedId = componentList[0].fe_id;
 		}
+		// 把componentList 存储到 Redux Store中
 		dispatch(resetComponents({ componentList, selectedId, copiedComponent: null }));
+		// 把问卷描述存储到 Redux Store中
+		dispatch(resetPageInfo({ title, desc, js, css, isPublished }));
 	}, [data]);
 	// 判断 id 变化， 执行 ajax 加载问卷数据
 	useEffect(() => {

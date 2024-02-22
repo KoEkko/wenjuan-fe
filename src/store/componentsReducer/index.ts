@@ -4,6 +4,7 @@ import { produce } from "immer";
 import cloneDeep from "lodash.clonedeep";
 import { getNextSelectedId, insertNewComponent } from "./utils";
 import { nanoid } from "nanoid";
+import { arrayMove } from "@dnd-kit/sortable";
 // 在 redux store中的组件信息 类型
 export type ComponentInfoType = {
 	fe_id: string; // 前端生成的ID， 服务端 MongoDb 不认这种格式， 所以自定义一个 fe_id
@@ -111,6 +112,40 @@ export const componentsSlice = createSlice({
 			copiedComponent.fe_id = nanoid();
 			insertNewComponent(draft, copiedComponent);
 		}),
+		// 选中上一个
+		selectPrevComponent: produce((draft: ComponentsStateType) => {
+			const { selectedId, componentList } = draft;
+			const selectedIndex = componentList.findIndex((c) => c.fe_id === selectedId);
+			if (selectedIndex < 0) return; // 未选中组件
+			if (selectedIndex <= 0) return; // 已经选中了第一个
+			draft.selectedId = componentList[selectedIndex - 1].fe_id;
+		}),
+		// 选中下一个
+		selectNextCompoent: produce((draft: ComponentsStateType) => {
+			const { selectedId, componentList } = draft;
+			const selectedIndex = componentList.findIndex((c) => c.fe_id === selectedId);
+			if (selectedIndex < 0) return;
+			if (selectedIndex >= componentList.length - 1) return;
+			draft.selectedId = componentList[selectedIndex + 1].fe_id;
+		}),
+		// 修改选中标题
+		changeComponentTitle: produce(
+			(draft: ComponentsStateType, action: PayloadAction<{ fe_id: string; title: string }>) => {
+				const { fe_id, title } = action.payload;
+				const curComp = draft.componentList.find((c) => c.fe_id === fe_id);
+				if (curComp) {
+					curComp.title = title;
+				}
+			}
+		),
+		// 移动组件位置
+		moveComponent: produce(
+			(draft: ComponentsStateType, action: PayloadAction<{ oldIndex: number; newIndex: number }>) => {
+				const { componentList: curComponentList } = draft;
+				const { oldIndex, newIndex } = action.payload;
+				draft.componentList = arrayMove(curComponentList, oldIndex, newIndex);
+			}
+		),
 	},
 });
 
@@ -124,6 +159,10 @@ export const {
 	toggleComponentLocked,
 	copySelectedComponent,
 	pasteCopiedComponent,
+	selectPrevComponent,
+	selectNextCompoent,
+	changeComponentTitle,
+	moveComponent,
 } = componentsSlice.actions;
 
 export default componentsSlice.reducer;

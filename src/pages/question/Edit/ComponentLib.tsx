@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useCallback } from "react";
 import { Typography } from "antd";
 import { nanoid } from "nanoid";
 import styles from "./ComponentLib.module.scss";
@@ -10,7 +10,7 @@ const ComponentLib: FC = () => {
 	const genComponent = (c: ComponentConfType) => {
 		const dispatch = useDispatch();
 		const { title, Component, type, defaultProps } = c;
-		function handleClick() {
+		const handleClick = useCallback(() => {
 			dispatch(
 				addComponent({
 					type,
@@ -20,7 +20,7 @@ const ComponentLib: FC = () => {
 					props: defaultProps,
 				})
 			);
-		}
+		}, []);
 		return (
 			<div key={type} className={styles.wrapper} onClick={handleClick}>
 				<div className={styles.component}>

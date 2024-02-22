@@ -1,4 +1,4 @@
-import React from "react";
+import React, { lazy } from "react";
 import { createBrowserRouter } from "react-router-dom";
 
 import MainLayout from "../layouts/MainLayout";
@@ -10,10 +10,11 @@ import Register from "../pages/Register";
 import NotFound from "../pages/NotFound";
 import Trash from "../pages/manage/Trash";
 import Star from "../pages/manage/Star";
-import Edit from "../pages/question/Edit";
 import List from "../pages/manage/List";
-import Stat from "../pages/question/Stat";
 
+// 路由懒加载
+const Edit = lazy(() => import(/* webpackChunkName:"editPage" */ "../pages/question/Edit"));
+const Stat = lazy(() => import(/* webpackChunkName:"statPage" */ "../pages/question/Stat"));
 const router = createBrowserRouter([
 	{
 		path: "/",

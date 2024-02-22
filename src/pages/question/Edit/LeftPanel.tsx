@@ -2,6 +2,7 @@ import React, { FC } from "react";
 import { Tabs } from "antd";
 import { AppstoreAddOutlined, BarsOutlined } from "@ant-design/icons";
 import ComponentLib from "./ComponentLib";
+import Layers from "./Layers";
 const LeftPanel: FC = () => {
 	const tabsItems = [
 		{
@@ -22,7 +23,7 @@ const LeftPanel: FC = () => {
 					图层
 				</span>
 			),
-			children: "图层",
+			children: <Layers />,
 		},
 	];
 	return <Tabs defaultActiveKey="componentLib" items={tabsItems}></Tabs>;
