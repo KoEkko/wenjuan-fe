@@ -41,11 +41,13 @@
     "build": "craco build",
     "test": "craco test --watchAll=false",
     "eject": "react-scripts eject",
-    "lint": "eslint \"src/**/*.+(js|jsx|jsx|tsx)\"",
-    "format": "prettier --write \"src/**/*.+(js|jsx|jsx|tsx)\"",
+    "lint": "eslint \"src/**/*.+(js|jsx|ts|tsx)\"",
+    "format": "prettier --write \"src/**/*.+(js|jsx|ts|tsx)\"",
     "prepare": "husky install",
     "commitlint": "commitlint --edit",
-    "analyze":"source-map-explorer 'build/static/js/*.js'"
+    "analyze": "source-map-explorer 'build/static/js/*.js'",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "eslintConfig": {
     "extends": [
@@ -68,10 +70,22 @@
   "devDependencies": {
     "@commitlint/cli": "^18.4.3",
     "@commitlint/config-conventional": "^18.4.3",
+    "@storybook/addon-essentials": "^7.6.17",
+    "@storybook/addon-interactions": "^7.6.17",
+    "@storybook/addon-links": "^7.6.17",
+    "@storybook/addon-onboarding": "1.0.11",
+    "@storybook/blocks": "^7.6.17",
+    "@storybook/preset-create-react-app": "^7.6.17",
+    "@storybook/react": "^7.6.17",
+    "@storybook/react-webpack5": "^7.6.17",
+    "@storybook/test": "^7.6.17",
     "@types/lodash.clonedeep": "^4.5.9",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.1.2",
     "husky": "^8.0.3",
-    "prettier": "^3.1.1"
+    "prettier": "^3.1.1",
+    "prop-types": "15.8.1",
+    "storybook": "^7.6.17",
+    "webpack": "5.90.3"
   }
 }
